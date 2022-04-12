@@ -27,11 +27,19 @@ app.use(flash());
 
 //rota principal
 app.get("/", (req, res) => {
-    res.render("index")
+
+    var emailError = req.flash("emailError");
+    var nomeError =  req.flash("nomeError");
+
+    emailError = (emailError == undefined || emailError.length == 0) ? undefined : emailError;
+    nomeError = (nomeError == undefined || nomeError.length == 0) ? undefined : nomeError;
+
+    res.render("index", {emailError, nomeError});
 })
 
 app.post("/form", (req, res) => {
     var {email, nome, pontos} = req.body;
+
     var emailError;
     var nomeError;
 
@@ -44,9 +52,11 @@ app.post("/form", (req, res) => {
     }
 
     if(emailError != undefined || nomeError != undefined) {
+        req.flash("emailError", emailError);
+        req.flash("nomeError", nomeError);
         res.redirect("/");
     } else {
-        res.send("Funcrionou");
+        res.send("Funcionou");
     }
 })
 
