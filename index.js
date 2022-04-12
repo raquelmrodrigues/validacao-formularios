@@ -21,6 +21,11 @@ app.use(session({
 
 app.use(flash());
 
+//rota principal
+app.get("/", (req, res) => {
+    res.render("index")
+})
+
 app.listen(5678, (req,res) => {
     console.log("Servidor rodando");
 })
